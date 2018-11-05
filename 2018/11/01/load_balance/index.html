@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="负载均衡,分布式技术,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一. 基础知识1.1 基础 什么是负载均衡? 当单机提供的并发量不能满足需求时，我们需要多台服务器同时服务。当客户请求到达时，如何为客户选择最合适的服务器?这个问题就是负载均衡问题。   负载均衡主要需要解决的问题是哪些?  从客户端的角度上看，客户需要最快速的得到服务器的相应，负载均衡时需要找出能最快相应客户需求的服务器进行服务。 从服务端来看如何使得每台服务器都能达到较高的利用率，最大限制的为">
+<meta name="keywords" content="负载均衡,分布式技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="负载均衡">
+<meta property="og:url" content="http://yoursite.com/2018/11/01/load_balance/index.html">
+<meta property="og:site_name" content="随园">
+<meta property="og:description" content="一. 基础知识1.1 基础 什么是负载均衡? 当单机提供的并发量不能满足需求时，我们需要多台服务器同时服务。当客户请求到达时，如何为客户选择最合适的服务器?这个问题就是负载均衡问题。   负载均衡主要需要解决的问题是哪些?  从客户端的角度上看，客户需要最快速的得到服务器的相应，负载均衡时需要找出能最快相应客户需求的服务器进行服务。 从服务端来看如何使得每台服务器都能达到较高的利用率，最大限制的为">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://picturestore.nos-eastchina1.126.net/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/lvs-dr.png">
+<meta property="og:image" content="https://picturestore.nos-eastchina1.126.net/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/lvs-nat.png">
+<meta property="og:image" content="https://picturestore.nos-eastchina1.126.net/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1.png">
+<meta property="og:updated_time" content="2018-11-05T07:52:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="负载均衡">
+<meta name="twitter:description" content="一. 基础知识1.1 基础 什么是负载均衡? 当单机提供的并发量不能满足需求时，我们需要多台服务器同时服务。当客户请求到达时，如何为客户选择最合适的服务器?这个问题就是负载均衡问题。   负载均衡主要需要解决的问题是哪些?  从客户端的角度上看，客户需要最快速的得到服务器的相应，负载均衡时需要找出能最快相应客户需求的服务器进行服务。 从服务端来看如何使得每台服务器都能达到较高的利用率，最大限制的为">
+<meta name="twitter:image" content="https://picturestore.nos-eastchina1.126.net/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/lvs-dr.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/01/load_balance/">
+
+
+
+
+
+  <title>负载均衡 | 随园</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随园</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/01/load_balance/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hongbshi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随园">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">负载均衡</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-01T13:54:24+08:00">
+                2018-11-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/架构/" itemprop="url" rel="index">
+                    <span itemprop="name">架构</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/架构/负载均衡/" itemprop="url" rel="index">
+                    <span itemprop="name">负载均衡</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/01/load_balance/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/01/load_balance/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/11/01/load_balance/" class="leancloud_visitors" data-flag-title="负载均衡">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一-基础知识"><a href="#一-基础知识" class="headerlink" title="一. 基础知识"></a>一. 基础知识</h1><h2 id="1-1-基础"><a href="#1-1-基础" class="headerlink" title="1.1 基础"></a>1.1 基础</h2><ol>
+<li>什么是负载均衡?<blockquote>
+<p>当单机提供的并发量不能满足需求时，我们需要多台服务器同时服务。当客户请求到达时，如何为客户选择最合适的服务器?这个问题就是负载均衡问题。</p>
+</blockquote>
+</li>
+<li>负载均衡主要需要解决的问题是哪些?<blockquote>
+<ul>
+<li>从客户端的角度上看，客户需要最快速的得到服务器的相应，负载均衡时需要找出能最快相应客户需求的服务器进行服务。</li>
+<li>从服务端来看如何使得每台服务器都能达到较高的利用率，最大限制的为用户提供快速、可靠的服务是服务端需要考虑的主要问题。</li>
+</ul>
+</blockquote>
+</li>
+</ol>
+<h2 id="1-2-负载均衡分类"><a href="#1-2-负载均衡分类" class="headerlink" title="1.2 负载均衡分类"></a>1.2 负载均衡分类</h2><ol>
+<li><p>硬件</p>
+<blockquote>
+<ul>
+<li>F5</li>
+</ul>
+</blockquote>
+</li>
+<li><p>软件</p>
+<blockquote>
+<ul>
+<li>dns负载均衡</li>
+<li>LVS负载均衡(4层)</li>
+<li>nginx, haproxy(7层)</li>
+</ul>
+</blockquote>
+</li>
+</ol>
+<h1 id="二-F5负载均衡"><a href="#二-F5负载均衡" class="headerlink" title="二. F5负载均衡"></a>二. F5负载均衡</h1><ol>
+<li>F5是一家美国的公司，该公司生产一些硬件设备可以作为负载均衡器使用(例如:big-ip), 本文后续部分所说的F5是指其负载均衡器产品。</li>
+<li>不同的产品实现的功能不一致，具体情况需要根据产品说明书。</li>
+<li>F5可以在4-7层内做负载均衡，用户可以根据需求进行配置。</li>
+<li>由于F5可以做7层负载均衡，故而可以实现会话管理，http处理等。</li>
+</ol>
+<h2 id="2-1-数据转发模式"><a href="#2-1-数据转发模式" class="headerlink" title="2.1 数据转发模式"></a>2.1 数据转发模式</h2><ol>
+<li>standard类型, 这种模式下，客户端与F5服务器建立连接，F5服务器与真实服务器建立连接，F5服务器将客户需求转发给真实服务器，并将真实服务器的相应转发给客户端，此时F5可以查看请求和相应的所有信息。</li>
+<li>四层转发模式(performance L4), 这种模式下，F5只处理4层以下的数据。客户端将数据发送给F5, F5仅将数据转发给真实服务器，包括TCP的握手数据包以及挥手数据包，真实服务器需要先将数据发送给F5服务器，F5将其转发给客户端。</li>
+<li>路由模式, 这种模式与LVS的DR模式类似。</li>
+<li>…</li>
+</ol>
+<h2 id="2-2-负载均衡算法"><a href="#2-2-负载均衡算法" class="headerlink" title="2.2 负载均衡算法"></a>2.2 负载均衡算法</h2><ol>
+<li>轮询，加权轮询。</li>
+<li>源地址哈希</li>
+<li>…</li>
+</ol>
+<h2 id="2-3-小结"><a href="#2-3-小结" class="headerlink" title="2.3 小结"></a>2.3 小结</h2><p>F5的优势在于功能强大，并发量高，能满足客户的大多数需求，但其成本较高，一般大型国企可能会使用。</p>
+<h2 id="2-4-参考"><a href="#2-4-参考" class="headerlink" title="2.4 参考"></a>2.4 参考</h2><ul>
+<li><a href="https://f5.com/zh" target="_blank" rel="noopener">https://f5.com/zh</a></li>
+<li><a href="https://www.jianshu.com/p/2b55aa4c21e2" target="_blank" rel="noopener">https://www.jianshu.com/p/2b55aa4c21e2</a></li>
+<li><a href="https://wenku.baidu.com/view/450b8643cc7931b765ce15c1.html" target="_blank" rel="noopener">https://wenku.baidu.com/view/450b8643cc7931b765ce15c1.html</a></li>
+</ul>
+<h1 id="三-dns负载均衡"><a href="#三-dns负载均衡" class="headerlink" title="三. dns负载均衡"></a>三. dns负载均衡</h1><ol>
+<li>dns负载均衡由dns服务提供厂商提供。</li>
+<li>最初的dns负载均衡提供简单轮询，不能根据客户端或者服务端状态进行选择。</li>
+<li>目前，有些dns服务厂商可以提供智能dns服务，用户可以设置负载均衡方案，例如：根据客户端ip地址，选择就近的服务器。</li>
+<li>对于目前大多数的公司而言，为了更好的服务用户，通常会使用dns负载均衡，将用户按照就近原则，分配到某个集群服务器上。之后，集群内再采用其他的负载均衡方案。</li>
+</ol>
+<h1 id="四-Linux-Virtual-Server-LVS"><a href="#四-Linux-Virtual-Server-LVS" class="headerlink" title="四. Linux Virtual Server(LVS)"></a>四. Linux Virtual Server(LVS)</h1><ol>
+<li>LVS通过修改数据包Ip地址，Mac地址实现负载均衡。</li>
+<li>LVS由ipvs(内核中), ipvsadm(用户态)组成。LVS需要理解tcp，ip头部。</li>
+<li>当tcp握手信号，SYN数据包达到时，ipvs选择一个后端服务器，将数据包进行转发。在此之后，所有包含相同的ip，tcp头部的数据包都会被转发到之前选择的服务器上。很明显，ipvs无法感知数据包内容。</li>
+</ol>
+<h2 id="4-1-分类"><a href="#4-1-分类" class="headerlink" title="4.1 分类"></a>4.1 分类</h2><ul>
+<li>LVS-NAT</li>
+<li>LVS-DR</li>
+<li>LVS-TUN</li>
+</ul>
+<h2 id="4-2-基本原理"><a href="#4-2-基本原理" class="headerlink" title="4.2 基本原理"></a>4.2 基本原理</h2><h3 id="4-2-1-LVS-DR"><a href="#4-2-1-LVS-DR" class="headerlink" title="4.2.1 LVS-DR"></a>4.2.1 LVS-DR</h3><p>LVS-DR模式的基本原理如下图所示:<br><img src="https://picturestore.nos-eastchina1.126.net/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/lvs-dr.png" alt="image"></p>
+<h3 id="4-2-2-LVS-NAT"><a href="#4-2-2-LVS-NAT" class="headerlink" title="4.2.2 LVS-NAT"></a>4.2.2 LVS-NAT</h3><p>LVS-NAT模式的基本原理如下图所示:<br><img src="https://picturestore.nos-eastchina1.126.net/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/lvs-nat.png" alt="image"></p>
+<h2 id="4-3-负载均衡算法"><a href="#4-3-负载均衡算法" class="headerlink" title="4.3 负载均衡算法"></a>4.3 负载均衡算法</h2><h3 id="4-3-1-静态算法"><a href="#4-3-1-静态算法" class="headerlink" title="4.3.1 静态算法"></a>4.3.1 静态算法</h3><ol>
+<li>轮询(Round Robin, RR)</li>
+<li>加权轮询(Weight Round Robin, WRR)</li>
+<li>源地址Hash(Source Hash, SH)</li>
+<li>目的地址Hash(Destination Hash, DH), 可以设置多个VIP</li>
+</ol>
+<h3 id="4-3-2-动态算法"><a href="#4-3-2-动态算法" class="headerlink" title="4.3.2 动态算法"></a>4.3.2 动态算法</h3><ol>
+<li>最少连接(Least Connections, LC)，找出当前连接数最小的服务器</li>
+<li>加权最少连接(Weighted Least Connections, WLC)</li>
+<li>最短期望延迟(Shortest Expected Delay Scheduling, SED) 基于WLC。例如: 现有A, B, C三台服务器，权重分别为100,200,300，当前的连接数分别为1,2,3,下一个连接到达时，通过计算期望时延选择服务器(1+1)/100, (2+1)/200, (3+1)/300, 故而选择C服务器。</li>
+<li>永不排队(Never Queue Scheduling, NQ)， 改进的sed, 如果某台服务器连接数为0，直接连接过去，不在进行sed计算。</li>
+<li>基于局部性的最少连接(locality-Based Least Connections, LBLC)，根据目标ip, 找出目标ip最近使用的服务器，如果服务器存在并且负载没有大于一个阈值，则将新的连接分配到这个服务器上，否则按照最少连接找出一个服务器处理该请求。</li>
+<li>带复制的基于局部性最少连接(Locality-Based Least Connections with Replication, LBLCR)，根据目标ip，维护一个服务器组，每次从组中挑选服务器，如果服务器不可以处理，则从所有服务器中按照最少连接挑选出一台服务器，并将其加入到目标ip的处理组服务器中。</li>
+</ol>
+<h2 id="4-3-参考"><a href="#4-3-参考" class="headerlink" title="4.3 参考"></a>4.3 参考</h2><ul>
+<li><a href="https://liangshuang.name/2017/11/19/lvs/" target="_blank" rel="noopener">https://liangshuang.name/2017/11/19/lvs/</a></li>
+</ul>
+<h1 id="五-Nginx-Load-Balance"><a href="#五-Nginx-Load-Balance" class="headerlink" title="五. Nginx Load Balance"></a>五. Nginx Load Balance</h1><ol>
+<li>nginx负载均衡工作在7层，它会与client、upstream分别建立tcp连接，nginx需要维护这两个连接的状态。</li>
+<li>nginx的stream模块可以用于4层负载均衡，但一般很少使用。</li>
+</ol>
+<h2 id="5-1-基本原理"><a href="#5-1-基本原理" class="headerlink" title="5.1 基本原理"></a>5.1 基本原理</h2><p>nginx做7层负载均衡的基本原理如下图所示:<br><img src="https://picturestore.nos-eastchina1.126.net/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1.png" alt="image"></p>
+<h2 id="5-2-负载均衡算法"><a href="#5-2-负载均衡算法" class="headerlink" title="5.2 负载均衡算法"></a>5.2 负载均衡算法</h2><ol>
+<li>轮询(默认)</li>
+<li>加权轮询</li>
+<li>源ip哈希</li>
+<li>响应时间</li>
+<li>url 哈希</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+    <div>
+        
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------ 本文结束------</div>
+    
+</div>
+
+        
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>谢谢你的支持！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="https://picturestore.nos-eastchina1.126.net/%E5%85%B6%E4%BB%96/WechatIMG2.png" alt="hongbshi WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="https://picturestore.nos-eastchina1.126.net/%E5%85%B6%E4%BB%96/WechatIMG5.jpeg" alt="hongbshi Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+    
+    <div>
+        <ul class="post-copyright">
+        <li class="post-copyright-author">
+            <strong>本文作者：</strong>hongbshi
+        </li>
+        <li class="post-copyright-link">
+            <strong>本文链接：</strong>
+            <a href="/2018/11/01/load_balance/" title="负载均衡">2018/11/01/load_balance/</a>
+        </li>
+        <li class="post-copyright-license">
+            <strong>版权声明： </strong>
+            本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0 CN</a> 许可协议。转载请注明出处！
+        </li>
+        </ul>
+    </div>
+    
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/31/nginx_memory_manage/" rel="next" title="nginx内存管理">
+                <i class="fa fa-chevron-left"></i> nginx内存管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/05/LT-ET/" rel="prev" title="水平触发与边沿触发">
+                水平触发与边沿触发 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">hongbshi</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-基础知识"><span class="nav-text">一. 基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-基础"><span class="nav-text">1.1 基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-负载均衡分类"><span class="nav-text">1.2 负载均衡分类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-F5负载均衡"><span class="nav-text">二. F5负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-数据转发模式"><span class="nav-text">2.1 数据转发模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-负载均衡算法"><span class="nav-text">2.2 负载均衡算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-小结"><span class="nav-text">2.3 小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-参考"><span class="nav-text">2.4 参考</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-dns负载均衡"><span class="nav-text">三. dns负载均衡</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-Linux-Virtual-Server-LVS"><span class="nav-text">四. Linux Virtual Server(LVS)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-分类"><span class="nav-text">4.1 分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-基本原理"><span class="nav-text">4.2 基本原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-1-LVS-DR"><span class="nav-text">4.2.1 LVS-DR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-2-LVS-NAT"><span class="nav-text">4.2.2 LVS-NAT</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-负载均衡算法"><span class="nav-text">4.3 负载均衡算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-1-静态算法"><span class="nav-text">4.3.1 静态算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-2-动态算法"><span class="nav-text">4.3.2 动态算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-参考"><span class="nav-text">4.3 参考</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五-Nginx-Load-Balance"><span class="nav-text">五. Nginx Load Balance</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-基本原理"><span class="nav-text">5.1 基本原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-负载均衡算法"><span class="nav-text">5.2 负载均衡算法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hongbshi</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'NNyFD1qeChQyvgVBdtmlvTUp-gzGzoHsz',
+        appKey: 'kOthqdrxbt51oKdmYiYw9Jou',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("NNyFD1qeChQyvgVBdtmlvTUp-gzGzoHsz", "kOthqdrxbt51oKdmYiYw9Jou");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
