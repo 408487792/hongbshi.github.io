@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="网络编程,数据传输顺序,">
 
 
 
@@ -79,14 +79,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+<meta name="description" content="一. 本机字节序 小端: 低位字节存在低地址。 大端: 低位字节存在高地址。  二. 本机位序一般情况下，本机位序与本机的字节序一致。  小端字节序: 低位bit存在低地址。 大端字节序: 低位bit存在高地址。  三. 网络序 网络字节序(大端)，先传送高位字节，再传送低位字节。 在传输一个字节时，先传送低位bit, 再传送高位bit。  注: 指针指向变量或者数组的起始地址，即指向低地址。 四">
+<meta name="keywords" content="网络编程,数据传输顺序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="字节序与位序">
+<meta property="og:url" content="http://yoursite.com/2018/11/05/net-byte-order/index.html">
 <meta property="og:site_name" content="随园">
+<meta property="og:description" content="一. 本机字节序 小端: 低位字节存在低地址。 大端: 低位字节存在高地址。  二. 本机位序一般情况下，本机位序与本机的字节序一致。  小端字节序: 低位bit存在低地址。 大端字节序: 低位bit存在高地址。  三. 网络序 网络字节序(大端)，先传送高位字节，再传送低位字节。 在传输一个字节时，先传送低位bit, 再传送高位bit。  注: 指针指向变量或者数组的起始地址，即指向低地址。 四">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-11-05T07:52:25.000Z">
+<meta property="og:updated_time" content="2018-11-05T11:53:47.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
+<meta name="twitter:title" content="字节序与位序">
+<meta name="twitter:description" content="一. 本机字节序 小端: 低位字节存在低地址。 大端: 低位字节存在高地址。  二. 本机位序一般情况下，本机位序与本机的字节序一致。  小端字节序: 低位bit存在低地址。 大端字节序: 低位bit存在高地址。  三. 网络序 网络字节序(大端)，先传送高位字节，再传送低位字节。 在传输一个字节时，先传送低位bit, 再传送高位bit。  注: 指针指向变量或者数组的起始地址，即指向低地址。 四">
 
 
 
@@ -116,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/">
+  <link rel="canonical" href="http://yoursite.com/2018/11/05/net-byte-order/">
 
 
 
 
 
-  <title>categories | 随园</title>
+  <title>字节序与位序 | 随园</title>
   
 
 
@@ -249,40 +253,261 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/05/net-byte-order/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hongbshi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随园">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">categories</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="category-all-page">
-            <div class="category-all-title">
-                6 categories in total
-            </div>
-            <div class="category-all">
-              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/内存管理/">内存管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/架构/">架构</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/架构/负载均衡/">负载均衡</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络编程/">网络编程</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络编程/基础/">基础</a><span class="category-list-count">2</span></li></ul></li></ul>
-            </div>
-          </div>
+          <h1 class="post-title" itemprop="name headline">字节序与位序</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-05T19:52:07+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/网络编程/基础/" itemprop="url" rel="index">
+                    <span itemprop="name">基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/05/net-byte-order/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/05/net-byte-order/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/11/05/net-byte-order/" class="leancloud_visitors" data-flag-title="字节序与位序">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <h1 id="一-本机字节序"><a href="#一-本机字节序" class="headerlink" title="一. 本机字节序"></a>一. 本机字节序</h1><ol>
+<li>小端: 低位字节存在低地址。</li>
+<li>大端: 低位字节存在高地址。</li>
+</ol>
+<h1 id="二-本机位序"><a href="#二-本机位序" class="headerlink" title="二. 本机位序"></a>二. 本机位序</h1><p>一般情况下，本机位序与本机的字节序一致。</p>
+<ol>
+<li>小端字节序: 低位bit存在低地址。</li>
+<li>大端字节序: 低位bit存在高地址。</li>
+</ol>
+<h1 id="三-网络序"><a href="#三-网络序" class="headerlink" title="三. 网络序"></a>三. 网络序</h1><ol>
+<li>网络字节序(大端)，先传送高位字节，再传送低位字节。</li>
+<li>在传输一个字节时，先传送低位bit, 再传送高位bit。</li>
+</ol>
+<p>注: 指针指向变量或者数组的起始地址，即指向低地址。</p>
+<h1 id="四-代码示例"><a href="#四-代码示例" class="headerlink" title="四. 代码示例"></a>四. 代码示例</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span> <span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span>&#123;</span><br><span class="line">    <span class="keyword">union</span> byte_order&#123;</span><br><span class="line">        <span class="keyword">int</span> a;</span><br><span class="line">        <span class="keyword">unsigned</span> <span class="keyword">char</span> b[<span class="number">4</span>];</span><br><span class="line">    &#125;;</span><br><span class="line">    byte_order val;</span><br><span class="line">    val.a = <span class="number">0x01020304</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"address 0x%x byte: 0x%x\n"</span>, &amp;val.b[<span class="number">0</span>], val.b[<span class="number">0</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"address 0x%x byte: 0x%x\n"</span>, &amp;val.b[<span class="number">1</span>], val.b[<span class="number">1</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"address 0x%x byte: 0x%x\n"</span>, &amp;val.b[<span class="number">2</span>], val.b[<span class="number">2</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"address 0x%x byte: 0x%x\n"</span>, &amp;val.b[<span class="number">3</span>], val.b[<span class="number">3</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span>  <span class="title">bit_order</span>&#123;</span></span><br><span class="line">        <span class="keyword">unsigned</span> <span class="keyword">char</span> a:<span class="number">4</span>;</span><br><span class="line">        <span class="keyword">unsigned</span> <span class="keyword">char</span> b:<span class="number">4</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> tmp = <span class="number">0x04</span>;</span><br><span class="line">    bit_order *val1 = (bit_order*)&amp;tmp;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"low bit %d\n"</span>, val1-&gt;a);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"high bit %d\n"</span>, val1-&gt;b);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//输出:</span></span><br><span class="line">address <span class="number">0x56074a68</span> byte: <span class="number">0x4</span></span><br><span class="line">address <span class="number">0x56074a69</span> byte: <span class="number">0x3</span></span><br><span class="line">address <span class="number">0x56074a6a</span> byte: <span class="number">0x2</span></span><br><span class="line">address <span class="number">0x56074a6b</span> byte: <span class="number">0x1</span></span><br><span class="line">low bit <span class="number">4</span></span><br><span class="line">high bit <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
       
     </div>
     
     
     
+    <div>
+        
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------ 本文结束------</div>
+    
+</div>
+
+        
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>谢谢你的支持！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="https://picturestore.nos-eastchina1.126.net/%E5%85%B6%E4%BB%96/WechatIMG2.png" alt="hongbshi WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="https://picturestore.nos-eastchina1.126.net/%E5%85%B6%E4%BB%96/WechatIMG5.jpeg" alt="hongbshi Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+    
+    <div>
+        <ul class="post-copyright">
+        <li class="post-copyright-author">
+            <strong>本文作者：</strong>hongbshi
+        </li>
+        <li class="post-copyright-link">
+            <strong>本文链接：</strong>
+            <a href="/2018/11/05/net-byte-order/" title="字节序与位序">2018/11/05/net-byte-order/</a>
+        </li>
+        <li class="post-copyright-license">
+            <strong>版权声明： </strong>
+            本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0 CN</a> 许可协议。转载请注明出处！
+        </li>
+        </ul>
+    </div>
+    
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/05/LT-ET/" rel="next" title="水平触发与边沿触发">
+                <i class="fa fa-chevron-left"></i> 水平触发与边沿触发
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -318,8 +543,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -379,6 +613,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-本机字节序"><span class="nav-text">一. 本机字节序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-本机位序"><span class="nav-text">二. 本机位序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-网络序"><span class="nav-text">三. 网络序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-代码示例"><span class="nav-text">四. 代码示例</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
