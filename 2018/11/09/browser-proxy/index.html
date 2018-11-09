@@ -82,19 +82,19 @@
 <meta name="description" content="一. 概述 什么是正向代理?   简单来说就是代理客户端请求的服务器。例如, 浏览器中设置代理翻墙等。    正向代理的主要问题?   代理服务器需要知道客户的目标服务器, 例如: 客户一会请求www.baidu.com, 一会请求www.taobao.com, 代理服务器如何获取目标服务器信息。    正向代理问题的解决方案?   客户端按照某种事先约定的协议通知代理服务器, 例如sock5协议">
 <meta name="keywords" content="网络,代理">
 <meta property="og:type" content="article">
-<meta property="og:title" content="browser_proxy">
+<meta property="og:title" content="正向代理">
 <meta property="og:url" content="http://yoursite.com/2018/11/09/browser-proxy/index.html">
 <meta property="og:site_name" content="随园">
 <meta property="og:description" content="一. 概述 什么是正向代理?   简单来说就是代理客户端请求的服务器。例如, 浏览器中设置代理翻墙等。    正向代理的主要问题?   代理服务器需要知道客户的目标服务器, 例如: 客户一会请求www.baidu.com, 一会请求www.taobao.com, 代理服务器如何获取目标服务器信息。    正向代理问题的解决方案?   客户端按照某种事先约定的协议通知代理服务器, 例如sock5协议">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://picturestore.nos-eastchina1.126.net/%E7%BD%91%E7%BB%9C/sock5/socks5%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B.png">
 <meta property="og:image" content="https://picturestore.nos-eastchina1.126.net/%E7%BD%91%E7%BB%9C/shadowsocks/shadowsocks%E4%BB%A3%E7%90%86%E7%BB%93%E6%9E%84%E5%9B%BE.png">
-<meta property="og:image" content="https://picturestore.nos-eastchina1.126.net/%E7%BD%91%E7%BB%9C/shadowsocks/browser-ss_cli-1.png">
-<meta property="og:image" content="https://picturestore.nos-eastchina1.126.net/%E7%BD%91%E7%BB%9C/shadowsocks/browser-ss_cli-2.png">
-<meta property="og:image" content="https://picturestore.nos-eastchina1.126.net/%E7%BD%91%E7%BB%9C/shadowsocks/ss_cli-ss_srv.png">
-<meta property="og:updated_time" content="2018-11-09T03:39:56.000Z">
+<meta property="og:image" content="https://picturestore.nos-eastchina1.126.net/%E7%BD%91%E7%BB%9C/shadowsocks/browser-ss_cli-1.jpg">
+<meta property="og:image" content="https://picturestore.nos-eastchina1.126.net/%E7%BD%91%E7%BB%9C/shadowsocks/browser-ss_cli-2.jpg">
+<meta property="og:image" content="https://picturestore.nos-eastchina1.126.net/%E7%BD%91%E7%BB%9C/shadowsocks/ss_cli-ss_srv.jpg">
+<meta property="og:updated_time" content="2018-11-09T05:28:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="browser_proxy">
+<meta name="twitter:title" content="正向代理">
 <meta name="twitter:description" content="一. 概述 什么是正向代理?   简单来说就是代理客户端请求的服务器。例如, 浏览器中设置代理翻墙等。    正向代理的主要问题?   代理服务器需要知道客户的目标服务器, 例如: 客户一会请求www.baidu.com, 一会请求www.taobao.com, 代理服务器如何获取目标服务器信息。    正向代理问题的解决方案?   客户端按照某种事先约定的协议通知代理服务器, 例如sock5协议">
 <meta name="twitter:image" content="https://picturestore.nos-eastchina1.126.net/%E7%BD%91%E7%BB%9C/sock5/socks5%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B.png">
 
@@ -132,7 +132,7 @@
 
 
 
-  <title>browser_proxy | 随园</title>
+  <title>正向代理 | 随园</title>
   
 
 
@@ -288,7 +288,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">browser_proxy</h1>
+          <h1 class="post-title" itemprop="name headline">正向代理</h1>
         
 
         <div class="post-meta">
@@ -361,7 +361,7 @@
 
           
           
-             <span id="/2018/11/09/browser-proxy/" class="leancloud_visitors" data-flag-title="browser_proxy">
+             <span id="/2018/11/09/browser-proxy/" class="leancloud_visitors" data-flag-title="正向代理">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -466,9 +466,9 @@
 <li>浏览器与ss_cli同属于一个主机, 通信时延低。ss_cli与ss_srv需要通过网络传输, 时延高。数据包分析中可以利用这一点。</li>
 </ol>
 <h2 id="4-1-浏览器与ss-cli通信"><a href="#4-1-浏览器与ss-cli通信" class="headerlink" title="4.1 浏览器与ss_cli通信"></a>4.1 浏览器与ss_cli通信</h2><ol>
-<li><p>tcp握手, 浏览器通过socks5发送目标服务器地址<br><img src="https://picturestore.nos-eastchina1.126.net/%E7%BD%91%E7%BB%9C/shadowsocks/browser-ss_cli-1.png" alt="image"></p>
+<li><p>tcp握手, 浏览器通过socks5发送目标服务器地址<br><img src="https://picturestore.nos-eastchina1.126.net/%E7%BD%91%E7%BB%9C/shadowsocks/browser-ss_cli-1.jpg" alt="image"></p>
 </li>
-<li><p>浏览器与ss_cli之间后续的通信, 此处是https协议<br><img src="https://picturestore.nos-eastchina1.126.net/%E7%BD%91%E7%BB%9C/shadowsocks/browser-ss_cli-2.png" alt="image"></p>
+<li><p>浏览器与ss_cli之间后续的通信, 此处是https协议<br><img src="https://picturestore.nos-eastchina1.126.net/%E7%BD%91%E7%BB%9C/shadowsocks/browser-ss_cli-2.jpg" alt="image"></p>
 <blockquote>
 <ul>
 <li>时间突变的部分是由于ss_cli需要ss_srv将目标服务器的应答信息发送回来。</li>
@@ -476,7 +476,7 @@
 </blockquote>
 </li>
 </ol>
-<h2 id="4-2-ss-cli与ss-srv通信"><a href="#4-2-ss-cli与ss-srv通信" class="headerlink" title="4.2 ss_cli与ss_srv通信"></a>4.2 ss_cli与ss_srv通信</h2><p>二者的通信格式是自行定义的,<br><img src="https://picturestore.nos-eastchina1.126.net/%E7%BD%91%E7%BB%9C/shadowsocks/ss_cli-ss_srv.png" alt="image"></p>
+<h2 id="4-2-ss-cli与ss-srv通信"><a href="#4-2-ss-cli与ss-srv通信" class="headerlink" title="4.2 ss_cli与ss_srv通信"></a>4.2 ss_cli与ss_srv通信</h2><p>二者的通信格式是自行定义的,<br><img src="https://picturestore.nos-eastchina1.126.net/%E7%BD%91%E7%BB%9C/shadowsocks/ss_cli-ss_srv.jpg" alt="image"></p>
 
       
     </div>
@@ -538,7 +538,7 @@
         </li>
         <li class="post-copyright-link">
             <strong>本文链接：</strong>
-            <a href="/2018/11/09/browser-proxy/" title="browser_proxy">2018/11/09/browser-proxy/</a>
+            <a href="/2018/11/09/browser-proxy/" title="正向代理">2018/11/09/browser-proxy/</a>
         </li>
         <li class="post-copyright-license">
             <strong>版权声明： </strong>
