@@ -3,6 +3,33 @@
   
     
     <entry>
+      <title>nginx 配置存储概述</title>
+      <link href="/2018/11/13/nginx-config-store-summarize/"/>
+      <url>/2018/11/13/nginx-config-store-summarize/</url>
+      
+        <content type="html"><![CDATA[<h1 id="一-基础"><a href="#一-基础" class="headerlink" title="一. 基础"></a>一. 基础</h1><p>nginx的一般配置如下所示:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">work_porcess: xx;</span><br><span class="line">events&#123;</span><br><span class="line">    ...</span><br><span class="line">    work_connections xx;</span><br><span class="line">&#125;</span><br><span class="line">http&#123;</span><br><span class="line">    <span class="comment">//第一级别的配置块</span></span><br><span class="line">    ...</span><br><span class="line">    upstream xx&#123;</span><br><span class="line">        <span class="comment">//第二级别的配置块</span></span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    server&#123;</span><br><span class="line">        <span class="comment">//第二级别的配置块</span></span><br><span class="line">        ...</span><br><span class="line">        location /&#123;</span><br><span class="line">            <span class="comment">//第三级别的配置块</span></span><br><span class="line">            ....</span><br><span class="line">            location /&#123;</span><br><span class="line">                <span class="comment">//第四级别的配置块</span></span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    server&#123;</span><br><span class="line">        <span class="comment">//第二级别的配置块</span></span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><ol><li>如何存储上述结构?<blockquote><ul><li>由于配置中存在嵌套, 可以使用树型结构进行存储</li></ul></blockquote></li><li>如何使用上述配置?<blockquote><ul><li>从上到下, 按层查找</li></ul></blockquote></li><li>配置解析核心?<blockquote><ul><li>对于块中嵌套块的模块存储(例如http), 核心在于要以块为单位进行分析。例如, 最外层为http块, 属于一级配置; http中的server或者upstream属于二级配置块; server中的location属于三级配置块; 依次类推, 每块都看作一个完整的结构。</li><li>由于存在块中嵌套, 内层的块有些配置需要从外层块继承, 有些配置不能继承, 故而每块的配置需要按区域划分。</li><li>二级配置块需要放到一级配置块中, 这样才能从一级配置块中找到所有的二级配置块, 以此类推。</li><li>由于配置解析是依靠各个模块完成的, 故而配置存储的树形结构中需要以模块为单位存储(也就是每个模块具有自己的存储结构, 可以放在树形结构的某个位置上)。</li></ul></blockquote></li></ol><h1 id="二-nginx配置存储结构"><a href="#二-nginx配置存储结构" class="headerlink" title="二. nginx配置存储结构"></a>二. nginx配置存储结构</h1><p>由于结构比较复杂, 此处分为2部分。</p><ol><li>第一部分配置存储结构图<br><img src="https://picturestore.nos-eastchina1.126.net/nginx/nginx%E9%85%8D%E7%BD%AE%E5%AD%98%E5%82%A81.png" alt="image"></li></ol><blockquote><ul><li>图中只给出了http中的server配置, 没有画出server中的location以及location嵌套的location</li></ul></blockquote><ol start="2"><li>第二部分配置存储结构图<br><img src="https://picturestore.nos-eastchina1.126.net/nginx/nginx%E9%85%8D%E7%BD%AE%E5%AD%98%E5%82%A82.png" alt="image"></li></ol><h1 id="三-http块存储结构"><a href="#三-http块存储结构" class="headerlink" title="三. http块存储结构"></a>三. http块存储结构</h1><p>对于http的配置存储, 应当以块为单位进行分析,</p><ol><li>总体而言, http块按树形存储</li><li>大体上可以分为3个级别(不考虑location中的location), 每个级别的配置分为3块(main块, srv块, loc块)</li><li>第二级别的配置继承第一级别的main块配置</li><li>第三级别的配置继承第二级别的main块以及srv块配置</li><li>第四及其后续级别的配置继承前一级的main块, srv块配置<br><img src="https://picturestore.nos-eastchina1.126.net/nginx/nginx%E9%85%8D%E7%BD%AE%E5%AD%98%E5%82%A8-http%E6%A6%82%E5%86%B5.png" alt="image"></li></ol><h1 id="四-nginx-upstream块存储"><a href="#四-nginx-upstream块存储" class="headerlink" title="四. nginx upstream块存储"></a>四. nginx upstream块存储</h1><ol><li>upstream的配置与server类似, 属于第二级别配置块</li><li>upstream的配置块中main块从第一级别的main块继承<br><img src="https://picturestore.nos-eastchina1.126.net/nginx/nginx%E9%85%8D%E7%BD%AE%E5%AD%98%E5%82%A83-upstream.png" alt="image"></li></ol><h1 id="五-nginx-proxy存储"><a href="#五-nginx-proxy存储" class="headerlink" title="五. nginx proxy存储"></a>五. nginx proxy存储</h1><ol><li>proxy_pass出现在location块中, 属于第三或者之后级别的配置。<br><img src="https://picturestore.nos-eastchina1.126.net/nginx/nginx%E9%85%8D%E7%BD%AE%E5%AD%98%E5%82%A84-proxy.png" alt="image"></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> nginx </category>
+          
+          <category> 配置解析 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> nginx </tag>
+            
+            <tag> 配置存储 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>nginx listen指令处理流程</title>
       <link href="/2018/11/12/nginx-listen-socket/"/>
       <url>/2018/11/12/nginx-listen-socket/</url>
@@ -23,9 +50,9 @@
             
             <tag> 网络编程 </tag>
             
-            <tag> epoll </tag>
-            
             <tag> nginx </tag>
+            
+            <tag> epoll </tag>
             
         </tags>
       
@@ -129,11 +156,11 @@
       
         <tags>
             
+            <tag> 网络编程 </tag>
+            
             <tag> 水平触发 </tag>
             
             <tag> 边沿触发 </tag>
-            
-            <tag> 网络编程 </tag>
             
         </tags>
       
